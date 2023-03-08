@@ -1,2 +1,2 @@
 #!/bin/bash
-echo '/tmp/correction/6680674760684889245387622361192027500238_5/205/355051/0x00-shell_basics’ 
+the_absolute_path_name_of_the_current_working_directory=$(pwd)/root/alx-system_engineering-devops/0x00-shell_basics
