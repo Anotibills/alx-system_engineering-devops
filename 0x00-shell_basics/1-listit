@@ -1,1 +1,2 @@
-ls /0x00-shell
+#!/bin/bash
+ls
