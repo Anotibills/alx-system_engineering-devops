@@ -1,6 +1,7 @@
 #!/bin/bash
 
+path=’readlink -f “${BASH_SOURCE:-$0}”’
 
-  get_abs_filename() {
-  # $1 : 0-current_working_directory
-    echo "$(cd /root/alx-system_engineering-devops/0x00-shell_basics)"
+DIR_PATH=’dirname $path’
+
+echo ‘The Directory Path is’ $DIR_PATH
