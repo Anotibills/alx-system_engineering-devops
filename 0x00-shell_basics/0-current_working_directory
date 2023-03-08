@@ -1,8 +1,0 @@
-#!/bin/bash
-
-     echo /root/alx-system_engineering-devops/0x00-shell_basics
-get_abs_filename() {
-  # $1 : 0-current_working_directory
-  if [ -d "$(dirname "$1")" ]; then
-    echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
-  fi
