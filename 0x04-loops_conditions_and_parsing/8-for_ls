@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#Script that display content of current dir in list
+
+list=$(ls)
+for a in $list
+do
+    echo "$a" | cut -d'-' -f 2
+done
+
