@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
-#Script that configures a new Ubuntu machine with Nginx.
-
-# Check if the script is running with root privileges
-if [ "$EUID" -ne 0 ]; then
-    echo "Please run this script as root."
-    exit 1
-fi
-
+#Script that configures a new Ubuntu machine
 # Update package lists and install Nginx
 sudo apt-get update
 sudo apt-get install -y nginx
