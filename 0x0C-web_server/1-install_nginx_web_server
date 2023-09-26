@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Script to install and configure Nginx on an Ubuntu machine.
+
+# Check if the script is running with root privileges
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run this script as root."
+    exit 1
+fi
+
+# Update package lists
+apt-get update
+
+# Install Nginx
+apt-get -y install nginx
+
+# Configure Nginx to listen on port 80 and serve "Hello World!" on the root URL
+cat <<EOF > /etc/nginx/sites-available/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        return 200 "Hello World!";
+    }
+}
+EOF
+
+# Remove the default Nginx welcome page
+rm -f /var/www/html/index.nginx-debian.html
+
+# Restart Nginx (without using systemctl)
+service nginx restart
+
+echo "Nginx is installed and configured to listen on port 80 and serve 'Hello World!' on the root URL."
+
