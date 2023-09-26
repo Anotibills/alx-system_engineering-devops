@@ -1,16 +1,21 @@
 #!/usr/bin/env bash
 #Script that configures a new Ubuntu machine with Nginx.
 
-# Update package lists
-sudo apt-get update
+# Check if the script is running with root privileges
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run this script as root."
+    exit 1
+fi
 
-# Install Nginx
-sudo apt-get -y install nginx
+# Update package lists and install Nginx
+sudo apt-get update -y
+sudo apt-get install -y nginx
 
 # Create a simple HTML page with "Hello World!" content
-echo "Hello World!" | sudo tee /usr/share/nginx/html/index.html > /dev/null
+echo "Hello World!" > /var/www/html/index.html
 
 # Restart Nginx service
 sudo service nginx restart
 
 echo "Nginx is installed and configured to display 'Hello World!'"
+
