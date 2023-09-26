@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
-#Script that configures a new Ubuntu machine
-# Update package lists and install Nginx
-sudo apt-get update
-sudo apt-get install -y nginx
+# Script to install nginx on a local web server
+# Displays 'Hello World!' when querying nginx at root
 
-# Create a simple HTML page with "Hello World!" content
-echo "Hello World!" > /usr/share/nginx/html/index.html
+# Update package lists and install Nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
+
+# Create a basic HTML page with 'Hello World!'
+echo "Hello World!" | sudo tee /var/www/html/index.html
 
 # Restart Nginx service
-sudo service nginx restart
+sudo systemctl restart nginx
+
