@@ -3,7 +3,7 @@
 # Displays 'Hello World!' when querying nginx at root
 
 # Update package lists and install Nginx
-sudo apt-get -y update
+sudo apt-get update
 sudo apt-get -y install nginx
 
 # Create a basic HTML page with 'Hello World!'
