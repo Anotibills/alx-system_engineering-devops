@@ -8,14 +8,14 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Update package lists and install Nginx
-apt-get update
-apt-get -y install nginx
+sudo apt-get update
+sudo apt-get -y install nginx
 
 # Create a simple HTML page with "Hello World!" content
 echo "Hello World!" > /usr/share/nginx/html/index.html
 
 # Restart Nginx service
-service nginx restart
+sudo service nginx restart
 
 echo "Nginx is installed and configured to display 'Hello World!'"
 
