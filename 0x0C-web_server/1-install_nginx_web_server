@@ -1,4 +1,4 @@
-#!?usr/bin/env bash
+#!/usr/bin/env bash
 #Script to install Nginx on a local web server
 # Displays 'Hello World!' when querying Nginx at root
 
