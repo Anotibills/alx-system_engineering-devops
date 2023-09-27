@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#Script to configure Nginx for a 301 redirect
+
+# Update package lists
+sudo apt-get -y update
+
+# Install Nginx
+sudo apt-get -y install nginx
+
+# Create a basic HTML page with a message
+echo "301 Moved Permanently" | sudo tee /usr/share/nginx/html/index.html
+
+# Define the Nginx configuration file
+nginx_conf="/etc/nginx/sites-available/default"
+
+# Use 'sed' to insert a location block for the redirection
+redirection_block="\
+\tlocation /redirect_me {\n\
+\t\treturn 301 https://www.example.com/new_page;\n\
+\t}\n"
+
+# Insert the redirection block into the Nginx configuration
+sudo sed -i "/^\tserver_name localhost;/a\\$redirection_block" "$nginx_conf"
+
+# Restart Nginx to apply the configuration changes
+sudo service nginx restart
+
+echo "Nginx configuration for redirection is complete."
+
