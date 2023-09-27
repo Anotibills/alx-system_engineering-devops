@@ -1,13 +1,41 @@
-#!/usr/bin/env bash
-# Script to install nginx on a local web server
-# Displays 'Hello World!' when querying nginx at root
+#!?usr/bin/env bash
+#Script to install Nginx on a local web server
+# Displays 'Hello World!' when querying Nginx at root
 
-# Update package lists and install Nginx
+# Function to check if a command was successful
+check_command() {
+    if [ $? -ne 0 ]; then
+        echo "Error: $1"
+        exit 1
+    fi
+}
+
+# Update package lists
 sudo apt-get -y update
+check_command "Failed to update package lists"
+
+# Install Nginx
 sudo apt-get -y install nginx
+check_command "Failed to install Nginx"
 
 # Create a basic HTML page with 'Hello World!'
-echo "Hello World!" | sudo tee /usr/share/nginx/html/index.html
+echo "Hello World!" | sudo tee /var/www/html/index.html
+check_command "Failed to create 'Hello World!' HTML page"
 
 # Restart Nginx service
 sudo service nginx restart
+check_command "Failed to restart Nginx"
+
+# Check Nginx logs for troubleshooting (access and error logs)
+access_log="/var/log/nginx/access.log"
+error_log="/var/log/nginx/error.log"
+
+echo "Checking Nginx logs for troubleshooting:"
+echo "Access log:"
+cat "$access_log" || echo "Access log not found or empty."
+
+echo "Error log:"
+cat "$error_log" || echo "Error log not found or empty."
+
+echo "Nginx installation and configuration completed successfully."
+
