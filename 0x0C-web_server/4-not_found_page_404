@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+#Script to configure Nginx for a custom 404 page
+
+# Update package lists
+sudo apt-get -y update
+
+# Install Nginx
+sudo apt-get -y install nginx
+
+# Define the Nginx configuration file
+nginx_conf="/etc/nginx/sites-available/default"
+
+# Create a custom 404 page
+sudo mkdir -p /usr/share/nginx/html
+sudo tee /usr/share/nginx/html/404.html <<EOF
+<!DOCTYPE html>
+<html>
+<head>
+    <title>404 Not Found</title>
+</head>
+<body>
+    <h1>404 Not Found</h1>
+    <p>Ceci n'est pas une page</p>
+</body>
+</html>
+EOF
+
+# Configure Nginx to use the custom 404 page
+sudo sed -i "s/#error_page 404/error_page 404 \/404.html;/" "$nginx_conf"
+
+# Test Nginx configuration
+sudo nginx -t
+
+# Reload Nginx to apply the changes
+sudo systemctl reload nginx
+
+echo "Nginx configuration for custom 404 page is complete."
+
