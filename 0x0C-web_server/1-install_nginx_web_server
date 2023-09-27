@@ -2,7 +2,7 @@
 #Script to install Nginx on a local web server
 
 sudo apt-get update
-sudo apt-get -y install nginx
+sudo apt-get install -y nginx
 sudo ufw 'Nginx HTTP'
 
 # Display Hello World
@@ -12,4 +12,4 @@ echo "Hello World!" | sudo tee /var/www/html/index.html
 sudo nginx -t
 
 # Restart nginx after installation
-sudo service nginx reload
+sudo service nginx restart
