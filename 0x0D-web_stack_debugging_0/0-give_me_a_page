@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
-# Script for Apache in a docker container
-sudo service apache2 start
+# Script that restarts apache in a docker container
+
+sudo service apache2 restart
