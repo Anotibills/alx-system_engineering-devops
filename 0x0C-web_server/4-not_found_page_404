@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#Script to configure Nginx for a custom 404 page
+# Script to customize 404 error page
 
 # Update package lists
 sudo apt-get -y update
@@ -7,32 +7,20 @@ sudo apt-get -y update
 # Install Nginx
 sudo apt-get -y install nginx
 
-# Define the Nginx configuration file
-nginx_conf="/etc/nginx/sites-available/default"
+echo "Hello World!" | sudo tee /var/www/html/index.html
 
-# Create a custom 404 page
-sudo mkdir -p /usr/share/nginx/html
-sudo tee /usr/share/nginx/html/404.html <<EOF
-<!DOCTYPE html>
-<html>
-<head>
-    <title>404 Not Found</title>
-</head>
-<body>
-    <h1>404 Not Found</h1>
-    <p>Ceci n'est pas une page</p>
-</body>
-</html>
-EOF
+replacement_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/anotibills permanent;"
 
-# Configure Nginx to use the custom 404 page
-sudo sed -i "s/#error_page 404/error_page 404 \/404.html;/" "$nginx_conf"
+sudo sed -i "s/server_name _;/$replacement_string/" /etc/nginx/sites-enabled/default
 
-# Test Nginx configuration
+#customizing 404 error page
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+
+replacement_string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\troot \/var/www/html;\n\t\tinternal;\n\t}"
+
+sudo sed -i "s/listen 80 default_server;/replacement_string/" /etc/nginx/sites-enabled/default
+
 sudo nginx -t
 
-# Reload Nginx to apply the changes
-sudo systemctl reload nginx
-
-echo "Nginx configuration for custom 404 page is complete."
-
+# Restart Nginx to apply the changes
+sudo service nginx restart
