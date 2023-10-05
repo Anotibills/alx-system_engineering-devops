@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#Script to configure Nginx for a 301 redirect
+
+# Update package lists
+sudo apt-get -y update
+
+# Install Nginx
+sudo apt-get -y install nginx
+
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+replacement_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/anotibills permanent;"
+
+sudo sed -i "s/server_name _;/$replacement_string/" /etc/nginx/sites-enabled/default
+
+sudo nginx -t
+
+# Restart Nginx to apply the configuration changes
+sudo service nginx restart

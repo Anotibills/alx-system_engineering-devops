@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Script to customize 404 error page
+
+# Update package lists
+sudo apt-get -y update
+
+# Install Nginx
+sudo apt-get -y install nginx
+
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+replacement_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/anotibills permanent;"
+
+sudo sed -i "s/server_name _;/$replacement_string/" /etc/nginx/sites-enabled/default
+
+#customizing 404 error page
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+
+replacement_string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\troot \/var/www/html;\n\t\tinternal;\n\t}"
+
+sudo sed -i "s/listen 80 default_server;/replacement_string/" /etc/nginx/sites-enabled/default
+
+sudo nginx -t
+
+# Restart Nginx to apply the changes
+sudo service nginx restart

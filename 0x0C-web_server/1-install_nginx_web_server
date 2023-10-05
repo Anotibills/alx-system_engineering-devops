@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#Script to install Nginx on a local web server
+
+sudo apt-get update
+sudo apt-get install -y nginx
+sudo ufw 'Nginx HTTP'
+
+# Display Hello World
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# to test if nginx is working ok
+sudo nginx -t
+
+# Restart nginx after installation
+sudo service nginx restart
