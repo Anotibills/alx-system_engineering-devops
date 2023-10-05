@@ -1,3 +1,9 @@
 #!/usr/bin/env bash
 #Script that connects ssh
-ssh -i ~/.ssh/school ubuntu@55.90.61.43
+
+# Define the server and key file
+server_ip="55.90.61.43"
+private_key="~/.ssh/school"
+
+# SSH command to connect to the server
+ssh -i "~/.ssh/school" ubuntu@"55.90.61.43"
