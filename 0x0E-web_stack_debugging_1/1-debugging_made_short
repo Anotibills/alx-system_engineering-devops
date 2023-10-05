@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Configuring nginx is listening on port 80 for all IPv4
+sudo sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+
+# sed command to do_stop
+sudo sed -i '/status)/a \\t\tdo_stop' /etc/init.d/nginx
+
+# Restart nginx
+sudo service nginx start
