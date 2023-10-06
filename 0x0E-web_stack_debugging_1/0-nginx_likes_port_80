@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Script used to configure nginx on port 80
-sudo sed -i 's/8080 default_server/80 default_server/g' /etc/nginx/sites-enabled/default
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Restarting nginx
 sudo service nginx restart
