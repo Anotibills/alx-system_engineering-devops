@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Script that will display information about subdomains
+
+domain_information() {
+    local domain="$1"
+    local subdomain="$2"
+    
+    local line
+    line=$(dig "$subdomain.$domain" +short)
+    
+    if [ -z "$line" ]; then
+        echo "The subdomain $subdomain does not exist for $domain"
+    else
+        echo "The subdomain $subdomain points to $line"
+    fi
+}
+
+if [ "$#" -eq 1 ]; then
+    domain_information "$1" "www"
+    domain_information "$1" "lb-01"
+    domain_information "$1" "web-01"
+    domain_information "$1" "web-02"
+elif [ "$#" -eq 2 ]; then
+    domain_information "$1" "$2"
+else
+    echo "Usage: $0 <domain> [subdomain]"
+    exit 1
+fi
+
