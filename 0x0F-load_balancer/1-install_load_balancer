@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Script to configures a new HAproxy as a load balancer
+
+# Installing HAproxy on a lb-01 server
+sudo apt-get -y update
+sudo apt-get -y install haproxy
+
+# Configure haproxy configuration file to distribute requests using a roundrobin algorithm
+echo '
+frontend aiclinic.tech
+        bind 0:80
+        default_backend web_servers
+
+backend web_servers
+        balance roundrobin
+        server 355051-web-01 3.90.70.201:80 check
+	server 355051-web-02 100.26.239.192:80 check
+' >> /etc/haproxy/haproxy.cfg
+
+echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
+
+# enable haproxy to be started by init script
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+
+# Restart HAproxy service
+service haproxy restart
