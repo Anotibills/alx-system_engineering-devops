@@ -38,13 +38,17 @@ defaults
 
 
 frontend aiclinic.tech
-        bind 0:80
-        bind 0:443 ssl crt /etc/ssl/private/aiclinic.tech.pem
-        http-request redirect scheme https code 301 unless { ssl_fc }
-        option forwardfor
-        default_backend aiclinic.tech_backend
+        bind *:80
+        bind *:443 ssl crt /etc/haproxy/certs/www.aiclinic.tech.pem
+        http-request redirect scheme https unless { ssl_fc }
+    	http-request set-header X-Forwarded-Proto https
+    	default_backend ailclinic.tech_back_end
 
 backend aiclinic.tech_backend
         balance roundrobin
         server 355051-web-01 3.90.70.201:80 check
 	server 355051-web-02 100.26.239.192:80 check
+
+backend letsencrypt-backend
+    	server letsencrypt 54.160.98.120
+
