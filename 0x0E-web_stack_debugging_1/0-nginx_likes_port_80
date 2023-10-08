@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Script used to configure nginx on port 80
-sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+# remove default configuration file of nginx
+sudo rm /etc/nginx/sites-enabled
+
+# Reconfigure nginx to listen to port 80
+sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Restarting nginx
 sudo service nginx restart
