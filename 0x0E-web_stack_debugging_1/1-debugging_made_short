@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 # Configuring nginx is listening on port 80 for all IPv4
-sudo sed -i 's/8080 default_server/80 default_server/g' /etc/nginx/sites-enabled/default
-
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 # Restarting nginx
-sudo service nginx restart
-
+service nginx restart
 # remove nginx.pid
-sudo rm /run/nginx.pid
+kill "$(pgrep 'nginx' | head -1)"
