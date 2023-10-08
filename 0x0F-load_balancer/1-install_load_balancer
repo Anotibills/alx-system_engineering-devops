@@ -3,15 +3,20 @@
 
 # Installing HAproxy on a lb-01 server
 sudo apt-get -y update
-sudo apt-get -y install haproxy
+sudo pt-get install --no-install-recommends software-properties-common
+sudo add-apt-repository ppa:vbernat/haproxy-2.6
+sudo apt-get install haproxy=2.6.\*
+
+# Copy configuration file into a new file 
+sudo cp -a /etc/haproxy/haproxy.cfg{,.original_copy}
 
 # Configure haproxy configuration file to distribute requests using a roundrobin algorithm
 echo '
-frontend aiclinic.tech
-        bind 0:80
-        default_backend web_servers
-
-backend web_servers
+frontend aiclinic-frontend
+        bind *:80
+        mode http
+        default_backend aiclinic-backend
+backend aiclinic-backend
         balance roundrobin
         server 355051-web-01 3.90.70.201:80 check
 	server 355051-web-02 100.26.239.192:80 check
