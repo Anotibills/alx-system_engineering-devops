@@ -6,7 +6,7 @@ sudo ufw status
 #if not installed, you can install with this
 sudo apt-get install ufw -y
 
-#deny all incoming network connection
+#deny all incoming connection
 sudo ufw default deny incoming
 
 #allow all outgoing connection
@@ -19,3 +19,5 @@ sudo ufw allow 443/tcp
 
 #enable ufw
 sudo ufw enable
+
+#Check settings/status
