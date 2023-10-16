@@ -1,0 +1,21 @@
+#step to install ufw
+
+# check if ufw is available on the webserver
+sudo ufw status
+
+#deny all incoming network connection
+sudo ufw default deny incoming
+
+#allow all outgoing connection
+sudo ufw default allow outgoing
+
+# allow port 22, 80 and 443 for ssh, http and https respectively
+sudo ufw allow 22/tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+#enable ufw
+sudo ufw enable
+
+#check status
+sudo ufw status
