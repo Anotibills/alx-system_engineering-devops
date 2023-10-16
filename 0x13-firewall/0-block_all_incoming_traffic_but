@@ -19,9 +19,3 @@ sudo ufw allow 443/tcp
 
 #enable ufw
 sudo ufw enable
-
-#be sure changed are added
-sudo ufw show added
-
-#check status
-sudo ufw status
