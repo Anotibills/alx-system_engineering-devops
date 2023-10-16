@@ -3,6 +3,9 @@
 # check if ufw is available on the webserver
 sudo ufw status
 
+#if not installed, you can install with this
+sudo apt-get install ufw -y
+
 #deny all incoming network connection
 sudo ufw default deny incoming
 
@@ -16,6 +19,9 @@ sudo ufw allow 443/tcp
 
 #enable ufw
 sudo ufw enable
+
+#be sure changed are added
+sudo ufw show added
 
 #check status
 sudo ufw status
