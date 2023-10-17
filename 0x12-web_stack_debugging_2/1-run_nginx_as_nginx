@@ -1,17 +1,15 @@
 #!/usr/bin/env bash
 # Script to ensures Nginx is running as the nginx user
-and listening on all active IPs on port 8080.
+# and listening on all active IPs on port 8080.
 
 # Update the user in nginx.conf to 'nginx'
-sed -i 's/user www-data/user nginx/' /etc/nginx/nginx.conf
+sudo sed -i 's/user www-data/user nginx/' /etc/nginx/nginx.conf
 
 # Update the default server block to listen on port 8080 and all active IPs
-sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-available/default
+sudo sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-available/default
 
 # Ensure appropriate permissions for nginx.conf
-chmod 644 /etc/nginx/nginx.conf
+sudo chmod 644 /etc/nginx/nginx.conf
 
 # Check if Nginx is running, and if not, start it as the nginx user
-if ! pgrep nginx > /dev/null; then
-    sudo -u nginx nginx
-fi
+sudo -u nginx service nginx start
