@@ -2,71 +2,50 @@
 '''
 function that queries the Reddit API, parses the title of all hot articles
 '''
-import re
 import requests
 
 
-def add_title(dictionary, hot_posts):
+def count_words(subreddit, word_list, instances={}, after="", count=0):
     '''
-    This add words from post titles to the dictionary
+    This print words count in hot post
     '''
-    if len(hot_posts) == 0:
-        return
-
-    title = hot_posts[0]['data']['title'].split()
-    for word in title:
-        for key in dictionary.keys():
-            c = re.compile("^{}$".format(key), re.I)
-            if c.findall(word):
-                dictionary[key] += 1
-    hot_posts.pop(0)
-    add_title(dictionary, hot_posts)
-
-
-def recurse(subreddit, dictionary, after=None):
-    '''
-    This recursively queries the Reddit API and processes posts
-    '''
-    user_agent = 'Mozilla/5.0'
+    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
     headers = {
-        'User-Agent': user_agent
+        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
     }
-
     params = {
-        'after': after
+        "after": after,
+        "count": count,
+        "limit": 100
     }
-
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
-    response = requests.get(base_url, headers=headers, params=params,
-                            allow_redirects=False)
-
-    if response.status_code != 200:
-        return None
-
-    data = response.json()
-    hot_posts = data['data']['children']
-    add_title(dictionary, hot_posts)
-    after = data['data']['after']
-    if not after:
+    res = requests.get(url, headers=headers, params=params,
+                       allow_redirects=False)
+    try:
+        results = res.json()
+        if res.status_code == 404:
+            raise Exception
+    except Exception:
+        print("")
         return
-    recurse(subreddit, dictionary, after=after)
 
+    results = results.get("data")
+    after = results.get("after")
+    count += results.get("dist")
+    for c in results.get("children"):
+        title = c.get("data").get("title").lower().split()
+        for word in word_list:
+            if word.lower() in title:
+                times = len([t for t in title if t == word.lower()])
+                if instances.get(word) is None:
+                    instances[word] = times
+                else:
+                    instances[word] += times
 
-def count_words(subreddit, word_list, dictionary=None):
-    '''
-    This count word occurrences in the top posts of a subreddit
-    '''
-    if dictionary is None:
-        dictionary = {}
-
-    for word in word_list:
-        word = word.lower()
-        if word not in dictionary:
-            dictionary[word] = 0
-
-    recurse(subreddit, dictionary)
-
-    sorted_items = sorted(dictionary.items(), key=lambda kv: (-kv[1], kv[0]))
-    for item in sorted_items:
-        if item[1] > 0:
-            print("{}: {}".format(item[0], item[1]))
+    if after is None:
+        if len(instances) == 0:
+            print("")
+            return
+        instances = sorted(instances.items(), key=lambda kv: (-kv[1], kv[0]))
+        [print("{}: {}".format(k, v)) for k, v in instances]
+    else:
+        count_words(subreddit, word_list, instances, after, count)
