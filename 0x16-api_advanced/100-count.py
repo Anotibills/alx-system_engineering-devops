@@ -18,11 +18,11 @@ def count_words(subreddit, word_list, instances={}, after="", count=0):
         "count": count,
         "limit": 100
     }
-    res = requests.get(url, headers=headers, params=params,
+    response = requests.get(url, headers=headers, params=params,
                        allow_redirects=False)
     try:
-        results = res.json()
-        if res.status_code == 404:
+        results = response.json()
+        if response.status_code == 404:
             raise Exception
     except Exception:
         print("")
