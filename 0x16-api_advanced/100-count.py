@@ -41,7 +41,7 @@ def recurse(subreddit, dictionary, after=None):
                             allow_redirects=False)
 
     if response.status_code != 200:
-        return
+        return None
 
     data = response.json()
     hot_posts = data['data']['children']
